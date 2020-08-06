@@ -1,3 +1,3 @@
-Genetic algorithm for prisoners' dilemma simulation
+#Genetic algorithm for prisoners' dilemma simulation
 
-Weights tend towards cooperating in equilibrium.
+Weights tend towards cooperating in equilibrium ._.
