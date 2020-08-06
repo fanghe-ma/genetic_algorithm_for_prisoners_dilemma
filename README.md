@@ -10,4 +10,9 @@ When instantiating new players, weights are allowed to fluctuate between 0.1 to 
 
 ## Results
 
-After 100 epochs, players tend towards cooperation.
+During initial fluctuation phase, players vary between cooperating and defecting at irregular intervals.
+
+This is followed by 2 subsequent phases where players simultaneously cooperate, and then a period where players simultaneously defect.
+
+The players eventually settle on alternating between paretto efficient outcome and Nash Equilibrium. 
+
