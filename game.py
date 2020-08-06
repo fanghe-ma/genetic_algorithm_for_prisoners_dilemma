@@ -7,7 +7,7 @@ class Game:
         #self.p2 = p2
         self.players = [p1, p2]
         self.payoffs = [[(3, 3), (1, 4)], [(4, 1), (2, 2)]]
-        self.strategies_history = [[0.5 for i in range(10)], [0.5 for i in range(10)]]
+        self.strategies_history = [[0 for i in range(10)], [0 for i in range(10)]]
         self.results_history = [[0 for i in range(10)], [0 for i in range(10)]]
         self.num_rounds = 0
 
@@ -41,6 +41,8 @@ class Game:
     def play(self, num_rounds):
         for i in range(num_rounds):
             self.new_round()
+
+        return (self.strategies_history, self.results_history)
 
         #for i in range(len(self.players)):
         #    res = 0
@@ -131,7 +133,11 @@ class Session:
         self.num_players = int(num_players)
         self.games_per_epoch = int(games_per_epoch)
         self.num_selected = num_selected
-        self.history = []
+        self.history = {
+                'performance_history' : [],
+                'strategies_history' : [],
+                'results_history' : []
+                }
 
     def train(self, rounds):
         for i in range(rounds):
@@ -150,13 +156,16 @@ class Session:
 
         for i in range(int(self.num_players/2)):
             game = Game(players[i], players[i + int(self.num_players/2)])
-            game.play(100)
+            strategies_history, results_history = game.play(100) 
+            self.history['strategies_history'] += strategies_history[0] + strategies_history[1]
+            self.history['results_history'] += results_history[0] + results_history[1]
+
             print("generation %d, pair number %d" % (n, i), end='\r')
            
         top_players = []
         performance = {index : player.evaluate() for index, player in enumerate(players)}
         for item in performance.items():
-            self.history.append(item[1])
+            self.history['performance_history'].append(item[1])
 
         sort_perf = sorted(performance.items(), key = lambda x:x[1])
         for i in range(self.num_selected):
@@ -192,9 +201,7 @@ class Session:
 
 if __name__ == "__main__":
     pd = Session()
-    pd.train(100)
-    plt.plot(pd.history)
-    plt.show()
+    pd.train(10)
 
 
 
