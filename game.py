@@ -2,10 +2,8 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 class Game:
-    def __init__(self, p1, p2):
-        #self.p1 = p1
-        #self.p2 = p2
-        self.players = [p1, p2]
+    def __init__(self, *args):
+        self.players = [arg for arg in args]
         self.payoffs = [[(3, 3), (1, 4)], [(4, 1), (2, 2)]]
         self.strategies_history = [[0 for i in range(10)], [0 for i in range(10)]]
         self.results_history = [[0 for i in range(10)], [0 for i in range(10)]]
@@ -53,11 +51,12 @@ class Game:
 
 
 class Player:
-    def __init__(self, initialize_weights=True, weights=None, bias=None):
+    def __init__(self, initialize_weights=True, weights=None, bias=None, mutate_factor=0.1):
         self.num_layers = 3
         self.num_nodes = [10, 4, 1]
         self.payoffs = 0
         self.num_rounds = 0
+        self.mutate_factor = mutate_factor
         if(initialize_weights):
             self.weights = [
                     np.random.rand(10, 40) * 2 - 1,
@@ -77,15 +76,15 @@ class Player:
     
     def mutate(self):
         new_weights = [
-                np.random.rand(10, 40) * 0.2 - 0.1,
-                np.random.rand(4, 10) * 0.2 - 0.1,
-                np.random.rand(1, 4) * 0.2 - 0.1
+                (np.random.rand(10, 40) * 2 - 1) * self.mutate_factor,
+                (np.random.rand(4, 10) * 2 - 1) * self.mutate_factor,
+                (np.random.rand(1, 4) * 2 - 1) * self.mutate_factor
         ]
 
         new_bias = [
-                np.random.rand(10) * 0.2 - 0.1,
-                np.random.rand(4) * 0.2 - 0.1,
-                np.random.rand(1) * 0.2 - 0.1
+                (np.random.rand(10) * 2 - 1) * self.mutate_factor,
+                (np.random.rand(4) * 2 - 1) * self.mutate_factor,
+                (np.random.rand(1) * 2 - 1) * self.mutate_factor
         ]
 
         for i in range(len(self.weights)):
@@ -127,16 +126,17 @@ class Player:
         return flat
 
 class Session:
-    def __init__(self, num_players=100, games_per_epoch=100, num_selected=10):
+    def __init__(self, num_players=100, games_per_epoch=100, num_selected=10, temperature=0.1):
         self.weights = None
         self.bias = None
         self.num_players = int(num_players)
         self.games_per_epoch = int(games_per_epoch)
         self.num_selected = num_selected
+        self.temperature = temperature
         self.history = {
                 'performance_history' : [],
-                'strategies_history' : [],
-                'results_history' : []
+                'strategies_history' : [[], []],
+                'results_history' : [[], []]
                 }
 
     def train(self, rounds):
@@ -148,17 +148,20 @@ class Session:
             players = [Player(
                         initialize_weights=False, 
                         weights = self.weights, 
-                        bias = self.bias) for i in range(self.num_players)]
+                        bias = self.bias,
+                        mutate_factor = self.temperature) for i in range(self.num_players)]
         else:
             players = [Player(
-                        initialize_weights=True, 
-                        ) for i in range(self.num_players)]
+                        initialize_weights=True,
+                        mutate_factor = self.temperature) for i in range(self.num_players)]
 
         for i in range(int(self.num_players/2)):
             game = Game(players[i], players[i + int(self.num_players/2)])
             strategies_history, results_history = game.play(100) 
-            self.history['strategies_history'] += strategies_history[0] + strategies_history[1]
-            self.history['results_history'] += results_history[0] + results_history[1]
+            self.history['strategies_history'][0] += strategies_history[0]
+            self.history['strategies_history'][1] += strategies_history[1]
+            self.history['results_history'][0] += results_history[0]
+            self.history['results_history'][1] += results_history[1]
 
             print("generation %d, pair number %d" % (n, i), end='\r')
            
@@ -197,11 +200,20 @@ class Session:
         self.bias = [b / len(top_players) for b in bias]
 
 
+def plot_history(history):
+    plt.plot(history['results_history'][0], label="player 1 results")
+    plt.plot(history['results_history'][1], label="player 2 results")
+    plt.plot(history['strategies_history'][0], label="player 1 strategies")
+    plt.plot(history['strategies_history'][1], label="player 2 strategies")
+    plt.legend()
+    plt.show()
         
 
 if __name__ == "__main__":
-    pd = Session()
+    pd = Session(temperature=0.5)
     pd.train(10)
+    plot_history(pd.history)
+
 
 
 
