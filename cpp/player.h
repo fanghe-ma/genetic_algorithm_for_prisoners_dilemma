@@ -5,16 +5,15 @@
 
 class Player{
    private:
-      static int n_layers;
-      static int layers_shape[n_layers];
-      Matrix * layer_pts;
+      int n_layers; 
+      int input_shape;
+      int *layers_shape; //array of length = n_layers, e.g. [10, 4, 1]
+      Matrix * layers_pts; //array of matrices
    public:
-      Player(int input_shape = 40);
+      Player(int l_input_shape, int num_layers, int *pt);
+      Player();
       ~Player();
-      float choose(Queue * q1, 
-                   Queue * q2, 
-                   Queue * q3, 
-                   Queue * q4) const;
+      float choose(Queue * qpt, int num) const;
       void update();
       friend std::ostream & operator<<(std::ostream & os, const Player & p1);
 

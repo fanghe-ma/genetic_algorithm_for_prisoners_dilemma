@@ -30,6 +30,24 @@ Matrix::Matrix(const Matrix & m1){
    }
 }
 
+Matrix::Matrix(const float * p, int x, int y){
+   xdims = x;
+   ydims = y;
+   pt = new float[xdims * ydims];
+   for(int i = 0; i < xdims * ydims; i++){
+      pt[i] = p[i];
+   }
+}
+
+Matrix::Matrix(const Queue & q){
+   xdims = 1;
+   ydims = q.num_items;
+   pt = new float[xdims * ydims];
+   for(int i = 0; i < xdims * ydims; i++){
+      pt[i] = q.pt[i];
+   }
+}
+
 Matrix::~Matrix(){
    delete [] pt;
 }
@@ -138,24 +156,51 @@ int Matrix::operator==(const Matrix & m2) const{
    return 1;
 }
 
-//indexing and selecting
-//float & Matrix::operator[](int i){
-//  return pt[i];
-//}
+Matrix Matrix::join(const Matrix & m2) const {
+   if(xdims == m2.xdims == 1){
+      Matrix m3(xdims, ydims + m2.ydims);
+      int counter = 0;
+      while(counter < m3.xdims * m3.ydims){
+         for(int i = 0; i < xdims; i++){
+            for(int j = 0; j < ydims; j++){
+               m3.pt[counter++] = pt[i * xdims + j];
+            }
+            for(int j = 0; j < m2.ydims; j++){
+               m3.pt[counter++] = m2.pt[i * xdims + j];
+            }
+         }
+      }
+      return m3;
+   }else if(ydims == m2.ydims){
+      Matrix m3(xdims + m2.xdims, ydims);
+      int counter = 0;
+      while(counter < m3.xdims * m3.ydims){
+         for(int i = 0; i < xdims * ydims; i++){
+            m3.pt[counter++] = pt[i];
+         }
+         for(int i = 0; i < m2.xdims * m2.ydims; i++){
+            m3.pt[counter++] = m2.pt[i];
+         }
+      }
+      return m3;
+   }else{
+      std::cout << "ERROR: SHAPE MISMATCH" << std::endl;
+      return Matrix();
+   }
+}
 
 
 //matrix io for debug
-std::ostream & operator<< (std::ostream & os, const Matrix & m1){
-   int k;
+std::ostream & operator<<(std::ostream & os, const Matrix & m1){
    if(!(m1.pt)){
       os << "ERROR: NULL MATRIX";
    }
-   for(int i = 0; i < m1.xdims; i++){
-      for(int j = 0; j < m1.ydims; j++){
-         k = i * m1.xdims + j * m1.ydims;
-         os << m1.pt[k] << " ";
+
+   for(int i = 0; i < m1.xdims * m1.ydims; i++){
+      os << m1.pt[i] << " ";
+      if(i % m1.ydims == m1.ydims - 1){
+         os << std::endl;
       }
-      os << std::endl;
    }
    return os;
 }

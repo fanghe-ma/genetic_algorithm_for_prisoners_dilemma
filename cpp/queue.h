@@ -6,8 +6,10 @@ class Queue{
    private:
       float * pt;
       int num_items;
+
+      friend class Matrix;
    public:
-      Queue(int a);
+      Queue(int a=5);
       ~Queue();
       void shift(float a);
       float & operator[](int i);
