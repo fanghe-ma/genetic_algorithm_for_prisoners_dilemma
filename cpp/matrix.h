@@ -18,22 +18,20 @@ class Matrix{
       Matrix(const Queue & q);
       Matrix();
       ~Matrix();
-
       //typecast to bool
       operator bool() const{
          return(pt ? true : false);
       }
-
       //operators & arithmetic
       Matrix operator+(const Matrix & m2) const; //element wise addition
       Matrix operator-(const Matrix & m2) const; //element wise subtraction
       Matrix operator*(const float b) const; //scalar product
       friend Matrix operator*(const float b, const Matrix & m1); //scalar product
       Matrix operator*(const Matrix & m2) const; // matrix product
+
       Matrix concat(const Matrix & m2) const; //concatenate matrices
       int operator==(const Matrix & m2) const;  // comparison 
       Matrix & operator=(const Matrix & m1); //assignment operator
-
       Matrix join(const Matrix & m2) const; //joins matrices
 
       //matrix io 

@@ -42,9 +42,9 @@ Matrix::Matrix(const float * p, int x, int y){
 Matrix::Matrix(const Queue & q){
    xdims = 1;
    ydims = q.num_items;
-   pt = new float[xdims * ydims];
+   this->pt = new float[xdims * ydims];
    for(int i = 0; i < xdims * ydims; i++){
-      pt[i] = q.pt[i];
+      this->pt[i] = q.pt[i];
    }
 }
 
@@ -118,7 +118,7 @@ Matrix operator*(const float b, const Matrix & m1){
 // matrix product
 Matrix Matrix::operator*(const Matrix & m2) const{
    if(ydims != m2.xdims){
-      std::cout << "ERROR SHAPE MISMATCH" << std::endl;
+      std::cout << "ERROR: DURING MATRIX MULTIPLICATION SHAPE MISMATCH" << std::endl;
       Matrix m3;
       return m3;
    }
@@ -184,7 +184,7 @@ Matrix Matrix::join(const Matrix & m2) const {
       }
       return m3;
    }else{
-      std::cout << "ERROR: SHAPE MISMATCH" << std::endl;
+      std::cout << "ERROR DURING CONCATENATION: SHAPE MISMATCH" << std::endl;
       return Matrix();
    }
 }
