@@ -1,11 +1,11 @@
 #include "game.h"
 #include <iostream>
 
-Game::Game(){
-   payoffs = {
-      {{3, 3}, {1, 4}}, 
-      {{4, 1}, {2, 2}}
+float Game::payoffs[2][2][2]= { 
+   {{3, 3}, {1, 4}}, 
+   {{4, 1}, {2, 2}}
    };
+Game::Game(){
 }
 
 Game::~Game(){}
@@ -32,9 +32,10 @@ std::ostream & operator<<(std::ostream & os, const Game & g){
    os << std::endl;
 
    os << "results history: " << std::endl;
-   os << "player 1: " << history[0] << endl;
-   os << "player 2: " << history[1] << endl;
+   os << "player 1: " << g.history[0] << std::endl;
+   os << "player 2: " << g.history[1] << std::endl;
    os << "strategies history: " << std::endl;
-   os << "player 1: " << history[2] << endl;
-   os << "player 2: " << history[3] << endl;
+   os << "player 1: " << g.history[2] << std::endl;
+   os << "player 2: " << g.history[3] << std::endl;
+   return os;
 }

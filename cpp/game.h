@@ -1,10 +1,11 @@
 #ifndef GAME_H_
 #define GAME_H_
 #include <iostream>
+#include "queue.h"
 
 class Game{
    private:
-      float payoffs[2][2][2];
+      static float payoffs[2][2][2];
    public:
       Queue history[4]; //results 1, results 2, history 1, history 2
       Game();

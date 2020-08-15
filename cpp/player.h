@@ -8,7 +8,7 @@ class Player{
       int n_layers; 
       int input_shape;
       int *layers_shape; //array of length = n_layers, e.g. [10, 4, 1]
-      float mutation_factor;
+      float mutate_factor;
       Matrix * layers_pts; //array of matrices
       Matrix * bias_pts;
 

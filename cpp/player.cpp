@@ -32,7 +32,6 @@ Player::~Player(){
    delete [] layers_shape;
    delete [] layers_pts;
 }
-
 float Player::choose(const Queue * qpt, int num) const{
    Matrix m(*qpt);
    for(int i = 1; i < num; i++){
@@ -44,10 +43,10 @@ float Player::choose(const Queue * qpt, int num) const{
    return m.pt[0];
 }
 
-void update(){
+void Player::update(){
    for(int i = 0; i < n_layers; i++){
-      layers_pts[i] += Matrix(layers_shape[i].xdims, layers_pts[i].ydims] * mutate_factor; 
-      bias_pts[i] += Matrix(bias_shape[i].xdims, bias_pts[i].ydims] * mutate_factor; 
+      layers_pts[i] = layers_pts[i] + Matrix(layers_pts[i].xdims, layers_pts[i].ydims) * mutate_factor; 
+      bias_pts[i] = layers_pts[i] + Matrix(bias_pts[i].xdims, bias_pts[i].ydims) * mutate_factor; 
    }
 }
 
