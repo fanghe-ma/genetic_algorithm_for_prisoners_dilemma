@@ -16,3 +16,13 @@ This is followed by 2 subsequent phases where players simultaneously cooperate, 
 
 The players eventually settle on alternating between paretto efficient outcome and Nash Equilibrium. 
 
+## Running the programme
+
+for python
+>python game.py
+
+for c++ (programme incomplete at the moment)
+>make 
+to clean up, run
+>make clean
+
