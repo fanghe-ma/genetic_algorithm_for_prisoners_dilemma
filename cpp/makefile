@@ -1,5 +1,3 @@
-# Makefile for Writing Make Files Example
-
 # *****************************************************
 # Variables to control Makefile operation
 
@@ -9,7 +7,6 @@ CXXFLAGS = -Wall -g
 # ****************************************************
 # Targets needed to bring the executable up to date
 
-#main: main.o Point.o Rectangle.o
 test: test.o game.o matrix.o player.o queue.o 
 	$(CXX) $(CXXFLAGS) -o test.o game.o matrix.o player.o queue.o 
 
