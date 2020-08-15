@@ -8,7 +8,7 @@ Matrix::Matrix(int x, int y, int initialize){
    pt = new float[xdims * ydims];
    if(initialize){
       for(int i = 0; i < xdims * ydims; i++){
-         pt[i] = float(rand()) / RAND_MAX;
+         pt[i] = float(rand()) / RAND_MAX - 0.5;
       }
    }else {
       for(int i = 0; i < xdims * ydims; i++){

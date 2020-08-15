@@ -11,6 +11,7 @@ class Player{
       float mutation_factor;
       Matrix * layers_pts; //array of matrices
       Matrix * bias_pts;
+
    public:
       Player(int l_input_shape, int num_layers, int *pt, float factor = 0.5);
       Player();

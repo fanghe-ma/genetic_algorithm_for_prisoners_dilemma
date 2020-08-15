@@ -12,11 +12,11 @@ class Matrix{
       friend class Player;
    public:
       //constructors and destructors
-      Matrix(int x, int y, int initialize = 1);
-      Matrix(const Matrix & m1);
-      Matrix(const float * p, int x, int y);
-      Matrix(const Queue & q);
-      Matrix();
+      Matrix(int x, int y, int initialize = 1);  
+      Matrix(const Matrix & m1); //copy constructor
+      Matrix(const float * p, int x, int y); //initialize matrix from array of floats
+      Matrix(const Queue & q); //initialize matrix from Queue object
+      Matrix(); //default constructor
       ~Matrix();
       //typecast to bool
       operator bool() const{

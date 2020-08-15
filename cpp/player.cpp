@@ -9,6 +9,7 @@ Player::Player(int l_input_shape, int num_layers, int *pt, float factor){
    layers_shape = new int[n_layers];
    layers_pts = new Matrix[n_layers];
    bias_pts = new Matrix[n_layers];
+   mutate_factor = factor;
 
    for(int i = 0; i < n_layers; i++){
       layers_shape[i] = pt[i];
@@ -24,6 +25,7 @@ Player::Player(){
    input_shape = 0;
    layers_shape = NULL;
    layers_pts = NULL;
+   mutate_factor = 0;
 }
 
 Player::~Player(){
@@ -41,8 +43,12 @@ float Player::choose(const Queue * qpt, int num) const{
    }
    return m.pt[0];
 }
+
 void update(){
-   
+   for(int i = 0; i < n_layers; i++){
+      layers_pts[i] += Matrix(layers_shape[i].xdims, layers_pts[i].ydims] * mutate_factor; 
+      bias_pts[i] += Matrix(bias_shape[i].xdims, bias_pts[i].ydims] * mutate_factor; 
+   }
 }
 
 std::ostream & operator<<(std::ostream & os, const Player & p1){
