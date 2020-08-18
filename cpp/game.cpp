@@ -19,6 +19,10 @@ void Game::round(float c1, float c2){
    history[3].shift(choice2);
 }
 
+const Queue * Game::get_history()const{
+   return history;
+}
+
 std::ostream & operator<<(std::ostream & os, const Game & g){
    os << "payoffs: " << std::endl;
    for(int i = 0; i < 2; i++){

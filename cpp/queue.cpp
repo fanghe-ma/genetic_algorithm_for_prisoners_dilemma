@@ -4,14 +4,12 @@
 Queue::Queue(int a){
    num_items = a;
    pt = new float[num_items];
-   std::cout << "queue at: " << pt << " created" << std::endl;
    for(int i = 0; i < num_items; i++){
       pt[i] = 0;
    }
 }
 
 Queue::~Queue(){
-   std::cout << "queue at: " << pt << " destroyed" << std::endl;
    delete [] pt;
 }
 

@@ -15,7 +15,7 @@ class Matrix{
       Matrix(int x, int y, int initialize = 1);  
       Matrix(const Matrix & m1); //copy constructor
       Matrix(const float * p, int x, int y); //initialize matrix from array of floats
-      Matrix(const Queue & q); //initialize matrix from Queue object
+      Matrix(const Queue * qpt); //initialize matrix from Queue object
       Matrix(); //default constructor
       ~Matrix();
       //typecast to bool

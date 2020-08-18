@@ -39,12 +39,12 @@ Matrix::Matrix(const float * p, int x, int y){
    }
 }
 
-Matrix::Matrix(const Queue & q){
+Matrix::Matrix(const Queue * qpt){
    xdims = 1;
-   ydims = q.num_items;
+   ydims = qpt->num_items;
    this->pt = new float[xdims * ydims];
    for(int i = 0; i < xdims * ydims; i++){
-      this->pt[i] = q.pt[i];
+      this->pt[i] = qpt->pt[i];
    }
 }
 
@@ -183,6 +183,8 @@ Matrix Matrix::join(const Matrix & m2) const {
          }
       }
       return m3;
+   }else if(pt == NULL){
+      return Matrix(m2);
    }else{
       std::cout << "ERROR DURING CONCATENATION: SHAPE MISMATCH" << std::endl;
       return Matrix();

@@ -1,6 +1,7 @@
 #ifndef PLAYER_H_
 #define PLAYER_H_
 #include "matrix.h"
+#include "game.h"
 #include <iostream>
 
 class Player{
@@ -17,6 +18,7 @@ class Player{
       Player();
       ~Player();
       float choose(const Queue * qpt, int num) const;
+      float choose(const Game & g)const;
       void update();
       friend std::ostream & operator<<(std::ostream & os, const Player & p1);
 

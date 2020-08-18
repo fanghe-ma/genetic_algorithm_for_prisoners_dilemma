@@ -27,4 +27,3 @@ queue.o: queue.cpp queue.h
 
 clean:
 	rm *.o main
-

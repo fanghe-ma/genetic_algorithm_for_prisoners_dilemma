@@ -32,13 +32,27 @@ Player::~Player(){
    delete [] layers_shape;
    delete [] layers_pts;
 }
+
 float Player::choose(const Queue * qpt, int num) const{
-   Matrix m(*qpt);
+   Matrix m(qpt);
    for(int i = 1; i < num; i++){
-      m = m.join(Matrix(qpt[i]));
+      m = m.join(Matrix(qpt+i));
    }
    for(int i = 0; i < n_layers; i++){
       m = m * layers_pts[i] - bias_pts[i];
+   }
+   return m.pt[0];
+}
+
+float Player::choose(const Game & g)const {
+   Matrix m;
+   for(int i = 0; i < 4; i++){
+      m = m.join(Matrix(g.history + i));
+      std::cout << "m: " << m << std::endl;
+   }
+   for(int i = 0; i < n_layers; i++){
+      m = m * layers_pts[i] - bias_pts[i];
+      std::cout << "m: " << m << std::endl;
    }
    return m.pt[0];
 }
